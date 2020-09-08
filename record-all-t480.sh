@@ -2,7 +2,10 @@ framerate=30
 screensize=2560x1600
 webcamsize=1280x800
 thread_queue_size=1024
+compression=20
 webcamdevice=/dev/video2 # either 0 or 2 depending on usb
+
+# setup the webcam to 50hz and no autofocus
 v4l2-ctl -d $webcamdevice --set-ctrl=power_line_frequency=1 # 50 hz
 v4l2-ctl -d $webcamdevice --set-ctrl=focus_auto=0           # no auto focus
 v4l2-ctl -d $webcamdevice -L
@@ -18,5 +21,5 @@ ffmpeg -loglevel error -stats \
     -f v4l2 -video_size $webcamsize -framerate $framerate -vcodec h264 -thread_queue_size $thread_queue_size -i $webcamdevice\
     -f x11grab -video_size $screensize -framerate $framerate -thread_queue_size $thread_queue_size -i :0.0+0,0 \
     -map 0:a:0 $1.wav \
-    -map 1:v:0 -c:v libx264 -crf 20 -preset ultrafast $1-webcam.mp4 \
-    -map 2:v:0 -c:v libx264 -crf 20 -preset ultrafast $1-screen.mp4 \
+    -map 1:v:0 -c:v libx264 -crf $compression -preset ultrafast $1-webcam.mp4 \
+    -map 2:v:0 -c:v libx264 -crf $compression -preset ultrafast $1-screen.mp4 \
