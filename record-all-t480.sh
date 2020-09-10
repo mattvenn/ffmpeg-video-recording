@@ -2,7 +2,7 @@ framerate=30
 screensize=2560x1600
 webcamsize=1280x800
 thread_queue_size=1024
-compression=20
+compression=0
 webcamdevice=/dev/video2 # either 0 or 2 depending on usb
 
 # setup the webcam to 50hz and no autofocus
